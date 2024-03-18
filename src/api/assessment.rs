@@ -13,9 +13,9 @@ pub struct Assessment {
     #[serde(alias = "Lehrer_ID")]
     pub teacher_id: i32,
     #[serde(alias = "Klasse")]
-    pub class: String,
+    pub class: Option<String>, // todo: depends on path
     #[serde(alias = "Fach")]
-    pub subject: String,
+    pub subject: Option<String>, // todo: depends on path
     #[serde(alias = "Typ")]
     pub r#type: String,
     #[serde(alias = "MaxPunkte")]
@@ -34,17 +34,23 @@ impl Api {
         Ok(Api::parse(self.get(&path)?.send()?)?)
     }
 
-    pub fn get_assessments(&self, class: &str) -> anyhow::Result<Assessments> {
-        let path = format!("api/Klassen/{class}/LFs");
-        Ok(Api::parse(self.get(&path)?.send()?)?)
-    }
-
-    pub fn get_subject_assessments(
+    pub fn get_assessments(
         &self,
-        class: &str,
-        subject: &str,
+        class: &Option<String>,
+        subject: &Option<String>,
     ) -> anyhow::Result<Assessments> {
-        let path = format!("api/Klassen/{class}/Faecher/{subject}/LFs");
+        let mat_no = &self.get_login_data()?.mat_no;
+        let path = if let Some(ref class) = class {
+            if let Some(subject) = subject {
+                format!("api/Klassen/{class}/Faecher/{subject}/LFs")
+            } else {
+                format!("api/Klassen/{class}/LFs")
+            }
+        } else if let Some(ref subject) = subject {
+            format!("api/Schueler/{mat_no}/Faecher/{subject}/Noten")
+        } else {
+            format!("api/Schueler/{mat_no}/Noten")
+        };
         Ok(Api::parse(self.get(&path)?.send()?)?)
     }
 }
