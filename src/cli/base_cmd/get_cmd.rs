@@ -30,6 +30,11 @@ pub enum GetCommands {
     Assessments(AssessmentsCommand),
     /// Fetch a grade by assessment id
     Grade { assessment_id: String },
+    /// Fetches the student's subjects
+    Subjects {
+        #[arg(short, long)]
+        early_warnings: bool,
+    },
 }
 
 #[derive(Args)]
@@ -53,6 +58,9 @@ impl GetCommand {
             }
             GetCommands::Grade { ref assessment_id } => {
                 self.print_data(&api.get_grade(assessment_id)?)
+            }
+            GetCommands::Subjects { early_warnings } => {
+                self.print_data(&api.get_subjects(early_warnings)?)
             }
         }
     }

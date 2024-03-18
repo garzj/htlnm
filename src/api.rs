@@ -11,6 +11,7 @@ pub mod grade;
 pub mod hitcount;
 pub mod login;
 pub mod student;
+pub mod subject;
 
 pub struct Api {
     client: Client,
