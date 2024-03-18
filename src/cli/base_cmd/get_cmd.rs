@@ -29,7 +29,7 @@ pub enum GetCommands {
     /// Filter assessments
     Assessments {
         #[arg(short, long)]
-        class: Option<String>,
+        class_name: Option<String>,
         #[arg(short, long)]
         subject: Option<String>,
     },
@@ -60,9 +60,9 @@ impl GetCommand {
             GetCommands::Classes => self.print_data(&api.get_classes()?),
             GetCommands::Assessment { ref id } => self.print_data(&api.get_assessment(id)?),
             GetCommands::Assessments {
-                ref class,
+                ref class_name,
                 ref subject,
-            } => self.print_data(&api.get_assessments(class, subject)?),
+            } => self.print_data(&api.get_assessments(class_name, subject)?),
             GetCommands::Grade { ref assessment_id } => {
                 self.print_data(&api.get_grade(assessment_id)?)
             }

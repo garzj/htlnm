@@ -13,7 +13,7 @@ pub struct Assessment {
     #[serde(alias = "Lehrer_ID")]
     pub teacher_id: i32,
     #[serde(alias = "Klasse")]
-    pub class: Option<String>, // todo: depends on path
+    pub class_name: Option<String>, // todo: depends on path
     #[serde(alias = "Fach")]
     pub subject: Option<String>, // todo: depends on path
     #[serde(alias = "Typ")]
@@ -36,11 +36,11 @@ impl Api {
 
     pub fn get_assessments(
         &self,
-        class: &Option<String>,
+        class_name: &Option<String>,
         subject: &Option<String>,
     ) -> anyhow::Result<Assessments> {
         let mat_no = &self.get_login_data()?.mat_no;
-        let path = if let Some(ref class) = class {
+        let path = if let Some(ref class) = class_name {
             if let Some(subject) = subject {
                 format!("api/Klassen/{class}/Faecher/{subject}/LFs")
             } else {

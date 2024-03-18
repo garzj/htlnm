@@ -12,7 +12,7 @@ pub struct Student {
     #[serde(alias = "Vorname")]
     pub firstname: String,
     #[serde(alias = "Klasse")]
-    pub class: String,
+    pub class_name: String,
     #[serde(alias = "EMailAdresse1")]
     pub email1: String,
     #[serde(alias = "EMailAdresse2")]
