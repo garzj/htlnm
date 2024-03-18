@@ -26,9 +26,25 @@ pub struct Assessment {
     pub grade_distribution: Option<[i32; 6]>,
 }
 
+pub type Assessments = Vec<Assessment>;
+
 impl Api {
     pub fn get_assessment(&self, id: &str) -> anyhow::Result<Assessment> {
         let path = format!("api/LFs/{id}");
+        Ok(Api::parse(self.get(&path)?.send()?)?)
+    }
+
+    pub fn get_assessments(&self, class: &str) -> anyhow::Result<Assessments> {
+        let path = format!("api/Klassen/{class}/LFs");
+        Ok(Api::parse(self.get(&path)?.send()?)?)
+    }
+
+    pub fn get_subject_assessments(
+        &self,
+        class: &str,
+        subject: &str,
+    ) -> anyhow::Result<Assessments> {
+        let path = format!("api/Klassen/{class}/Faecher/{subject}/LFs");
         Ok(Api::parse(self.get(&path)?.send()?)?)
     }
 }

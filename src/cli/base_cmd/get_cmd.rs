@@ -24,8 +24,16 @@ pub enum GetCommands {
     Student,
     /// Fetch a list of all classes
     Classes,
-    /// Fetch an assessment
+    /// Fetch an assessment by id
     Assessment { id: String },
+    /// Filter assessments by class (or subject)
+    Assessments(AssessmentsCommand),
+}
+
+#[derive(Args)]
+pub struct AssessmentsCommand {
+    class: String,
+    subject: Option<String>,
 }
 
 impl GetCommand {
@@ -36,6 +44,13 @@ impl GetCommand {
             GetCommands::Student => self.print_data(&api.get_student()?),
             GetCommands::Classes => self.print_data(&api.get_classes()?),
             GetCommands::Assessment { ref id } => self.print_data(&api.get_assessment(id)?),
+            GetCommands::Assessments(ref ass_cmd) => {
+                if let Some(ref subject) = ass_cmd.subject {
+                    self.print_data(&api.get_subject_assessments(&ass_cmd.class, subject)?)
+                } else {
+                    self.print_data(&api.get_assessments(&ass_cmd.class)?)
+                }
+            }
         }
     }
 
