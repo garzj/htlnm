@@ -26,11 +26,11 @@ pub enum GetCommands {
     Classes,
     /// Fetch an assessment by id
     Assessment { id: String },
-    /// Filter assessments by class (or subject)
+    /// Filter assessments
     Assessments(AssessmentsCommand),
-    /// Fetch a grade by assessment id
+    /// Fetch an assessment's grade
     Grade { assessment_id: String },
-    /// Fetches the student's subjects
+    /// Filter subjects
     Subjects {
         #[arg(short, long)]
         early_warnings: bool,
