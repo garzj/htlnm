@@ -1,5 +1,3 @@
-extern crate rfc822_sanitizer;
-
 use clap::Parser;
 use cli::Cli;
 

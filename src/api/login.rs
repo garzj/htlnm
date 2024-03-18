@@ -1,8 +1,7 @@
 use std::{borrow::Cow, collections::HashMap};
 
-use chrono::{DateTime, FixedOffset, Utc};
-use rfc822_sanitizer::parse_from_rfc2822_with_fallback;
 use serde::{Deserialize, Serialize};
+use time::{format_description::well_known::Rfc2822, OffsetDateTime, PrimitiveDateTime, UtcOffset};
 
 use super::Api;
 
@@ -48,8 +47,9 @@ impl Api {
                 .login_cache
                 .as_ref()
                 .map_or(Ok::<bool, anyhow::Error>(true), |res| {
-                    let expires_date = parse_from_rfc2822_with_fallback(&res.expires)?;
-                    let now = DateTime::<FixedOffset>::from(Utc::now());
+                    let expires_date = PrimitiveDateTime::parse(&res.expires, &Rfc2822)?;
+                    let expires_date = expires_date.assume_offset(UtcOffset::UTC);
+                    let now = OffsetDateTime::now_utc();
                     let is_expired = now.gt(&expires_date);
                     Ok(is_expired || res.user_name.eq(username))
                 })?;
