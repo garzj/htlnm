@@ -28,6 +28,8 @@ pub enum GetCommands {
     Assessment { id: String },
     /// Filter assessments by class (or subject)
     Assessments(AssessmentsCommand),
+    /// Fetch a grade by assessment id
+    Grade { assessment_id: String },
 }
 
 #[derive(Args)]
@@ -50,6 +52,9 @@ impl GetCommand {
                 } else {
                     self.print_data(&api.get_assessments(&ass_cmd.class)?)
                 }
+            }
+            GetCommands::Grade { ref assessment_id } => {
+                self.print_data(&api.get_grade(assessment_id)?)
             }
         }
     }
