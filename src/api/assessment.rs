@@ -4,24 +4,25 @@ use serde::{Deserialize, Serialize};
 use super::Api;
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
+#[serde(rename_all = "camelCase")]
 pub struct Assessment {
-    #[serde(rename(deserialize = "LF_ID"))]
+    #[serde(alias = "LF_ID")]
     pub id: i32,
-    #[serde(rename(deserialize = "Datum"))]
+    #[serde(alias = "Datum")]
     pub date: NaiveDateTime,
-    #[serde(rename(deserialize = "Lehrer_ID", serialize = "teacherId"))]
+    #[serde(alias = "Lehrer_ID")]
     pub teacher_id: i32,
-    #[serde(rename(deserialize = "Klasse"))]
+    #[serde(alias = "Klasse")]
     pub class: String,
-    #[serde(rename(deserialize = "Fach"))]
+    #[serde(alias = "Fach")]
     pub subject: String,
-    #[serde(rename(deserialize = "Typ"))]
+    #[serde(alias = "Typ")]
     pub r#type: String,
-    #[serde(rename(deserialize = "MaxPunkte", serialize = "maxPoints"))]
+    #[serde(alias = "MaxPunkte")]
     pub max_points: Option<f64>,
-    #[serde(rename(deserialize = "Kommentar"))]
+    #[serde(alias = "Kommentar")]
     pub comment: String,
-    #[serde(rename(deserialize = "Notenspiegel", serialize = "gradeDistribution"))]
+    #[serde(alias = "Notenspiegel")]
     pub grade_distribution: [i32; 6],
 }
 

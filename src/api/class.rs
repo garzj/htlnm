@@ -3,8 +3,9 @@ use serde::{Deserialize, Serialize};
 use super::Api;
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
+#[serde(rename_all = "camelCase")]
 pub struct Class {
-    #[serde(rename(deserialize = "Name"))]
+    #[serde(alias = "Name")]
     pub name: String,
 }
 

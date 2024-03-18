@@ -8,19 +8,20 @@ use super::Api;
 #[derive(Serialize, Deserialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct LoginData {
-    #[serde(rename = "access_token")]
+    #[serde(alias = "access_token")]
     pub access_token: String,
     pub class_name: String,
-    #[serde(rename = "token_type")]
+    #[serde(alias = "token_type")]
     pub token_type: String,
-    #[serde(rename = "expires_in")]
+    #[serde(alias = "expires_in")]
     pub expires_in: i32,
-    pub matrikel_nr: String,
+    #[serde(alias = "matrikelNr")]
+    pub mat_no: String,
     pub role: String,
     pub user_name: String,
-    #[serde(rename = ".issued")]
+    #[serde(alias = ".issued")]
     pub issued: String,
-    #[serde(rename = ".expires")]
+    #[serde(alias = ".expires")]
     pub expires: String,
 }
 

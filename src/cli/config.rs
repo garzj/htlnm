@@ -11,6 +11,7 @@ use crate::api::login::LoginData;
 use super::io_helpers::exit_err_msg;
 
 #[derive(Serialize, Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
 pub struct Config {
     pub user_name: String,
     pub login_cache: Option<LoginData>,
