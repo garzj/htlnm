@@ -22,6 +22,10 @@ pub enum GetCommands {
     HitCount,
     /// Fetch the authed student
     Student,
+    /// Fetch a list of all classes
+    Classes,
+    /// Fetch an assessment
+    Assessment { id: String },
 }
 
 impl GetCommand {
@@ -30,6 +34,8 @@ impl GetCommand {
             GetCommands::Login => self.print_data(api.get_login_data()?),
             GetCommands::HitCount => self.print_data(&api.get_hitcount()?),
             GetCommands::Student => self.print_data(&api.get_student()?),
+            GetCommands::Classes => self.print_data(&api.get_classes()?),
+            GetCommands::Assessment { ref id } => self.print_data(&api.get_assessment(id)?),
         }
     }
 
