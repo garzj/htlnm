@@ -8,6 +8,7 @@ use self::login::LoginData;
 pub mod assessment;
 pub mod class;
 pub mod early_warning;
+pub mod early_warning_settings;
 pub mod grade;
 pub mod hitcount;
 pub mod login;

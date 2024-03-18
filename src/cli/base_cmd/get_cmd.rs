@@ -47,6 +47,8 @@ pub enum GetCommands {
         #[arg(short, long)]
         subject: Option<String>,
     },
+    /// Fetch early warning settings
+    EarlyWarningSettings,
 }
 
 impl GetCommand {
@@ -70,6 +72,9 @@ impl GetCommand {
             GetCommands::EarlyWarning { id } => self.print_data(&api.get_early_warning(id)?),
             GetCommands::EarlyWarnings { ref subject } => {
                 self.print_data(&api.get_early_warnings(subject)?)
+            }
+            GetCommands::EarlyWarningSettings => {
+                self.print_data(&api.get_early_warning_settings()?)
             }
         }
     }
