@@ -8,9 +8,9 @@ pub struct Student {
     #[serde(alias = "Matrikelnummer")]
     pub mat_no: i32,
     #[serde(alias = "Nachname")]
-    pub last_name: String,
+    pub lastname: String,
     #[serde(alias = "Vorname")]
-    pub first_name: String,
+    pub firstname: String,
     #[serde(alias = "Klasse")]
     pub class: String,
     #[serde(alias = "EMailAdresse1")]
