@@ -23,7 +23,7 @@ pub struct Assessment {
     #[serde(alias = "Kommentar")]
     pub comment: String,
     #[serde(alias = "Notenspiegel")]
-    pub grade_distribution: [i32; 6],
+    pub grade_distribution: Option<[i32; 6]>,
 }
 
 impl Api {
