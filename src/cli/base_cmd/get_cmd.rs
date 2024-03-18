@@ -27,7 +27,12 @@ pub enum GetCommands {
     /// Fetch an assessment by id
     Assessment { id: String },
     /// Filter assessments
-    Assessments(AssessmentsCommand),
+    Assessments {
+        #[arg(short, long)]
+        class: Option<String>,
+        #[arg(short, long)]
+        subject: Option<String>,
+    },
     /// Fetch an assessment's grade
     Grade { assessment_id: String },
     /// Filter subjects
@@ -35,14 +40,6 @@ pub enum GetCommands {
         #[arg(short, long)]
         early_warnings: bool,
     },
-}
-
-#[derive(Args)]
-pub struct AssessmentsCommand {
-    #[arg(short, long)]
-    class: Option<String>,
-    #[arg(short, long)]
-    subject: Option<String>,
 }
 
 impl GetCommand {
@@ -53,9 +50,10 @@ impl GetCommand {
             GetCommands::Student => self.print_data(&api.get_student()?),
             GetCommands::Classes => self.print_data(&api.get_classes()?),
             GetCommands::Assessment { ref id } => self.print_data(&api.get_assessment(id)?),
-            GetCommands::Assessments(ref ass_cmd) => {
-                self.print_data(&api.get_assessments(&ass_cmd.class, &ass_cmd.subject)?)
-            }
+            GetCommands::Assessments {
+                ref class,
+                ref subject,
+            } => self.print_data(&api.get_assessments(class, subject)?),
             GetCommands::Grade { ref assessment_id } => {
                 self.print_data(&api.get_grade(assessment_id)?)
             }
