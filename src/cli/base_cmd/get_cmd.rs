@@ -40,6 +40,13 @@ pub enum GetCommands {
         #[arg(short, long)]
         early_warnings: bool,
     },
+    /// Fetch an early warning by id
+    EarlyWarning { id: i32 },
+    /// Filter the student's early warnings (by subject)
+    EarlyWarnings {
+        #[arg(short, long)]
+        subject: Option<String>,
+    },
 }
 
 impl GetCommand {
@@ -59,6 +66,10 @@ impl GetCommand {
             }
             GetCommands::Subjects { early_warnings } => {
                 self.print_data(&api.get_subjects(early_warnings)?)
+            }
+            GetCommands::EarlyWarning { id } => self.print_data(&api.get_early_warning(id)?),
+            GetCommands::EarlyWarnings { ref subject } => {
+                self.print_data(&api.get_early_warnings(subject)?)
             }
         }
     }
