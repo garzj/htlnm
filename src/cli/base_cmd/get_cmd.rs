@@ -1,8 +1,8 @@
 use clap::{Args, Subcommand};
-use handlebars::Handlebars;
-use serde::Serialize;
 
 use crate::api::Api;
+
+use super::print_data;
 
 #[derive(Args)]
 pub struct GetCommand {
@@ -56,41 +56,31 @@ pub enum GetCommands {
 impl GetCommand {
     pub fn run(&self, api: &Api) -> anyhow::Result<()> {
         match self.command {
-            GetCommands::Login => self.print_data(api.get_login_data()?),
-            GetCommands::HitCount => self.print_data(&api.get_hitcount()?),
-            GetCommands::Student => self.print_data(&api.get_student()?),
-            GetCommands::Classes => self.print_data(&api.get_classes()?),
-            GetCommands::Assessment { id } => self.print_data(&api.get_assessment(id)?),
+            GetCommands::Login => print_data(&self.format, api.get_login_data()?),
+            GetCommands::HitCount => print_data(&self.format, &api.get_hitcount()?),
+            GetCommands::Student => print_data(&self.format, &api.get_student()?),
+            GetCommands::Classes => print_data(&self.format, &api.get_classes()?),
+            GetCommands::Assessment { id } => print_data(&self.format, &api.get_assessment(id)?),
             GetCommands::Assessments {
                 ref class_name,
                 ref subject,
-            } => self.print_data(&api.get_assessments(class_name, subject)?),
-            GetCommands::Grade { assessment_id } => self.print_data(&api.get_grade(assessment_id)?),
-            GetCommands::Subjects { early_warnings } => {
-                self.print_data(&api.get_subjects(early_warnings)?)
+            } => print_data(&self.format, &api.get_assessments(class_name, subject)?),
+            GetCommands::Grade { assessment_id } => {
+                print_data(&self.format, &api.get_grade(assessment_id)?)
             }
-            GetCommands::EarlyWarning { id } => self.print_data(&api.get_early_warning(id)?),
+            GetCommands::Subjects { early_warnings } => {
+                print_data(&self.format, &api.get_subjects(early_warnings)?)
+            }
+            GetCommands::EarlyWarning { id } => {
+                print_data(&self.format, &api.get_early_warning(id)?)
+            }
             GetCommands::EarlyWarnings { ref subject } => {
-                self.print_data(&api.get_early_warnings(subject)?)
+                print_data(&self.format, &api.get_early_warnings(subject)?)
             }
             GetCommands::EarlyWarningSettings => {
-                self.print_data(&api.get_early_warning_settings()?)
+                print_data(&self.format, &api.get_early_warning_settings()?)
             }
-            GetCommands::Absences => self.print_data(&api.get_absences()?),
+            GetCommands::Absences => print_data(&self.format, &api.get_absences()?),
         }
-    }
-
-    fn print_data<T>(&self, data: &T) -> anyhow::Result<()>
-    where
-        T: Serialize,
-    {
-        println!(
-            "{}",
-            self.format.as_ref().map_or_else(
-                || anyhow::Ok(serde_json::to_string_pretty(data)?),
-                |format| anyhow::Ok(Handlebars::new().render_template(&format, data)?)
-            )?
-        );
-        Ok(())
     }
 }
