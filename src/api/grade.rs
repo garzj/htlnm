@@ -14,7 +14,7 @@ pub struct Grade {
 }
 
 impl Api {
-    pub fn get_grade(&self, assessment_id: &str) -> anyhow::Result<Grade> {
+    pub fn get_grade(&self, assessment_id: i32) -> anyhow::Result<Grade> {
         let path = format!(
             "api/LFs/{assessment_id}/Schueler/{}/Noten",
             self.get_login_data()?.mat_no

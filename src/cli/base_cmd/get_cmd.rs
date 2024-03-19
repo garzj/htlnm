@@ -25,7 +25,7 @@ pub enum GetCommands {
     /// Fetch a list of all classes
     Classes,
     /// Fetch an assessment by id
-    Assessment { id: String },
+    Assessment { id: i32 },
     /// Filter assessments
     Assessments {
         #[arg(short, long)]
@@ -34,7 +34,7 @@ pub enum GetCommands {
         subject: Option<String>,
     },
     /// Fetch an assessment's grade
-    Grade { assessment_id: String },
+    Grade { assessment_id: i32 },
     /// Filter subjects
     Subjects {
         #[arg(short, long)]
@@ -60,14 +60,12 @@ impl GetCommand {
             GetCommands::HitCount => self.print_data(&api.get_hitcount()?),
             GetCommands::Student => self.print_data(&api.get_student()?),
             GetCommands::Classes => self.print_data(&api.get_classes()?),
-            GetCommands::Assessment { ref id } => self.print_data(&api.get_assessment(id)?),
+            GetCommands::Assessment { id } => self.print_data(&api.get_assessment(id)?),
             GetCommands::Assessments {
                 ref class_name,
                 ref subject,
             } => self.print_data(&api.get_assessments(class_name, subject)?),
-            GetCommands::Grade { ref assessment_id } => {
-                self.print_data(&api.get_grade(assessment_id)?)
-            }
+            GetCommands::Grade { assessment_id } => self.print_data(&api.get_grade(assessment_id)?),
             GetCommands::Subjects { early_warnings } => {
                 self.print_data(&api.get_subjects(early_warnings)?)
             }

@@ -29,7 +29,7 @@ pub struct Assessment {
 pub type Assessments = Vec<Assessment>;
 
 impl Api {
-    pub fn get_assessment(&self, id: &str) -> anyhow::Result<Assessment> {
+    pub fn get_assessment(&self, id: i32) -> anyhow::Result<Assessment> {
         let path = format!("api/LFs/{id}");
         Ok(Api::parse(self.get(&path)?.send()?)?)
     }
