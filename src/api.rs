@@ -5,6 +5,7 @@ use serde::{de::DeserializeOwned, Deserialize, Serialize};
 
 use self::login::LoginData;
 
+pub mod absence;
 pub mod assessment;
 pub mod class;
 pub mod early_warning;

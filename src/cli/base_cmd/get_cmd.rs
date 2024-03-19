@@ -49,6 +49,8 @@ pub enum GetCommands {
     },
     /// Fetch early warning settings
     EarlyWarningSettings,
+    /// Fetch absences
+    Absences,
 }
 
 impl GetCommand {
@@ -76,6 +78,7 @@ impl GetCommand {
             GetCommands::EarlyWarningSettings => {
                 self.print_data(&api.get_early_warning_settings()?)
             }
+            GetCommands::Absences => self.print_data(&api.get_absences()?),
         }
     }
 
