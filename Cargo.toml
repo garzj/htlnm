@@ -4,13 +4,13 @@ name = "htlnm"
 version = "0.1.0"
 
 [dependencies]
-anyhow = "1.0.95"
-chrono = {version = "0.4.39", features = ["serde", "clock"]}
-clap = {version = "4.5.28", features = ["derive", "string"]}
+anyhow = "1.0.98"
+chrono = {version = "0.4.40", features = ["serde", "clock"]}
+clap = {version = "4.5.36", features = ["derive", "string"]}
 dirs = "5.0.1"
 handlebars = "5.1.2"
 reqwest = {version = "0.11.27", features = ["json", "blocking"]}
 rpassword = "7.3.1"
-serde = {version = "1.0.217", features = ["derive"]}
-serde_json = "1.0.138"
-time = {version = "0.3.37", features = ["parsing"]}
+serde = {version = "1.0.219", features = ["derive"]}
+serde_json = "1.0.140"
+time = {version = "0.3.41", features = ["parsing"]}
